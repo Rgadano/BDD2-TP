@@ -1,0 +1,68 @@
+CREATE TABLE Participante(
+	Legajo int primary key,
+	Nombre varchar (50) NOT NULL,
+	Rol varchar (50)
+);
+CREATE TABLE Proyecto(
+	id int identity (1,1) primary key,
+	titulo varchar (50),
+	id_cliente int NOT NULL UNIQUE,
+	FOREIGN KEY (id_cliente) REFERENCES Cliente(id)
+);
+
+
+create table Cliente (
+	id int primary key,
+	Nombre varchar (50) NOT NULL,
+	ID_CC INT NOT NULL,
+	ID_FACT INT NOT NULL,
+	FOREIGN KEY (ID_CC) REFERENCES Centro_Costos(id),
+	FOREIGN KEY (ID_FACT) REFERENCES Centro_Facturacion(id)
+	);
+
+
+create table Centro_costos (
+	id int primary key,
+	Descripcion VARCHAR(50) NOT NULL
+	);
+
+create table Centro_Facturacion (
+	id int not null primary key,
+	Descripcion VARCHAR(100) NOT NULL
+	);
+
+CREATE TABLE horas_rendidas (
+	id_proy INT NOT NULL,
+	id_legajo INT NOT NULL,
+	Hs_dia_rendido DATE NOT null,
+	hs_rendidas DOUBLE NOT NULL,
+		CONSTRAINT fk_id_proy_HR FOREIGN KEY (ID_proy)
+		REFERENCES proyecto(id_proy),
+		CONSTRAINT fk_id_legajo_HR FOREIGN KEY (ID_legajo)
+		REFERENCES legajo(id_legajo),
+		CONSTRAINT PK_Horas_rendidas UNIQUE(id_proy,id_legajo,Hs_dia_rendido)
+	);
+
+
+CREATE TABLE Asignacion_rol (
+	id_rol INT NOT NULl,
+	id_proy INT NOT NULL,
+	id_legajo INT NOT NULL,
+	FOREIGN KEY (id_proy) REFERENCES Proyecto(id),
+	FOREIGN KEY (id_legajo) REFERENCES Participante(Legajo),
+	);
+	
+CREATE TABLE Liquidacion_mensual (
+	ID_Liquidacion INT not null AUTO_INCREMENT PRIMARY KEY ,
+	id_cliente INT NOT NULL,
+	ID_Proy INT NOT NULL,
+	ID_Rol INT NOT NULL,
+	anio_liquidacion INT NOT NULL,
+	mes_liquidacion INT NOT NULL,
+	cant_horas DOUBLE,
+	correlativo int,
+	FOREIGN KEY (id_cliente) REFERENCES Cliente(id),
+	FOREIGN KEY (ID_Proy) REFERENCES Proyecto(id),
+	);
+	
+	
