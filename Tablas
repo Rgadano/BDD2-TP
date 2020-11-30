@@ -65,4 +65,11 @@ CREATE TABLE Liquidacion_mensual (
 	FOREIGN KEY (ID_Proy) REFERENCES Proyecto(id),
 	);
 	
-	
+CREATE TABLE Asignacion_rol (
+	id_proy INT NOT NULL,
+	id_legajo INT NOT NULL,
+		CONSTRAINT fk_id_proy_AR FOREIGN KEY (ID_proy)
+		REFERENCES proyecto(id),
+		CONSTRAINT fk_id_legajo_AR FOREIGN KEY (ID_legajo)
+		REFERENCES participante(legajo),
+		);
